@@ -1,0 +1,11 @@
+max_epochs: 50
+
+train:
+  callbacks:
+    model_checkpoint:
+      monitor: val_auroc
+      mode: max
+    lr_rate_monitor:
+      logging_interval: epoch
+
+inference:

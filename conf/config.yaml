@@ -1,0 +1,6 @@
+defaults:
+  - logging: default
+  - model: default
+  - data_module: default
+  - experiments: default
+  - data: default
