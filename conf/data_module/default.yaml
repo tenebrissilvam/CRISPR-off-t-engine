@@ -1,0 +1,24 @@
+label: crispr_bert #crispr_dipoff, r_crispr, deep_cnn,
+
+crispr_bert:
+  filepath: "data/Change_seq.csv"
+  batch_size: 128
+  val_split: 0.2
+  encoding: "doublet"
+  test_split: 0.1
+  num_workers: 4
+
+crispr_dipoff:
+  filepath: "data/Change_seq.csv"
+  batch_size: 128
+  val_split: 0.2
+
+r_crispr:
+  filepath: "data/Change_seq.csv"
+  batch_size: 128
+  val_split: 0.2
+
+deep_cnn:
+  filepath: "data/Change_seq.csv"
+  batch_size: 128
+  val_split: 0.2

@@ -1,8 +1,14 @@
+import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import pytorch_lightning as pl
 import torch
 from torch.utils.data import DataLoader, Dataset, random_split
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(BASE_DIR))
 
 from src.utils.DeepCNN import preprocess_inputs_batch
 
