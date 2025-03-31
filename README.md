@@ -37,7 +37,10 @@ off-target effect.
 
 ## Data and experiments
 
-Methods performance on Change-seq dataset
+Methods performance on Change-seq dataset:
+
+![image_2025-03-31_05-20-20](https://github.com/user-attachments/assets/791f7a4f-0ccf-4bd4-9266-ef339203b3c0)
+
 
 ## Project progress
 
