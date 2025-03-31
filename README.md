@@ -41,16 +41,45 @@ Methods performance on Change-seq dataset:
 
 ![image_2025-03-31_05-20-20](https://github.com/user-attachments/assets/791f7a4f-0ccf-4bd4-9266-ef339203b3c0)
 
+## How to Run the Program
+
+To run the program, follow these steps:
+
+1. **Activate the Virtual Environment:**
+   First, you need to activate the virtual environment of `uv`. This ensures that all the necessary dependencies are available.
+
+   ```sh
+   source .venv/uv/bin/activate
+   ```
+2. **Run the Script:** 
+  Once the virtual environment is activated, navigate to the root of the project and run the following command:
+
+   ```sh
+   uv run src/run_scripts/sample_run.py
+   ```
+
 ## Project progress
 
-30.03 Added project description. Added metrics for performance at Change-seq
-dataset for all four methods so far
+### March 2025
 
-23.03 Added R-Crispr and Deep-CNN methods
+- **31.03.2025**
+  - Added Hydra configs.
+  - Created run script.
+  - Integrated DVC for version control.
 
-17.03 Added Crispr DipOff method code
+- **30.03.2025**
+  - Added project description.
+  - Implemented metrics for performance evaluation on the Change-seq dataset for all four methods.
 
-15.03 Added bidirectional LSTM with BERT embeddings method code
+- **23.03.2025**
+  - Added R-Crispr method.
+  - Added Deep-CNN method.
+
+- **17.03.2025**
+  - Added Crispr DipOff method code.
+
+- **15.03.2025**
+  - Added bidirectional LSTM with BERT embeddings method code.
 
 ## References
 
