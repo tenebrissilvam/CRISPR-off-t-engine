@@ -138,3 +138,5 @@ mlruns/
 
 *.tar
 *.tar.gz
+
+outputs/
