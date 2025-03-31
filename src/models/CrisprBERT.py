@@ -7,7 +7,8 @@ from transformers import BertConfig, BertModel
 
 
 class CrisprBERTLightning(pl.LightningModule):
-    # CrisprBERT model for predicting presense of the off-target effects via returning 0 or 1. Uses encoded embeddings matrix as an input
+    """CrisprBERT model for predicting presense of the off-target effects via returning 0 or 1. Uses encoded embeddings matrix as an input"""
+
     def __init__(
         self,
         vocab_size,
