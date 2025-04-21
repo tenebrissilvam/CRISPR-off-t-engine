@@ -122,12 +122,6 @@ class off_tar_read(object):
         self.pairs = pairs
 
     def encode(self, encoding="doublet"):  # encoding starts here
-        print("Data encoding...")
-        print(self.read_file.head())
-        print(".\n.\n.")
-        print(self.read_file.tail())
-        print("\n")
-
         name = extract_file_name(self.file_path)
         if encoding == "doublet":
             print("Doublet encoding...")
@@ -147,7 +141,7 @@ class off_tar_read(object):
             )
             sys.exit()
 
-        encode_path = "/kaggle/working/" + "encoded_data/" + name
+        encode_path = "./" + "encoded_data/" + name
 
         if os.path.isfile(encode_path):  # If the encoded data exists, use that instead
             encode_matrix = np.loadtxt(encode_path)
