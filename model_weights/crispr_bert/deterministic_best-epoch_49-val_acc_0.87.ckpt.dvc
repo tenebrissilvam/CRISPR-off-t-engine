@@ -1,0 +1,5 @@
+outs:
+- md5: b5a01f3aa69c9e321fc57f9b7fd1b5bd
+  size: 21746064
+  hash: md5
+  path: deterministic_best-epoch_49-val_acc_0.87.ckpt

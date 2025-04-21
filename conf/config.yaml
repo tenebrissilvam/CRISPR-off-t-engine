@@ -4,3 +4,4 @@ defaults:
   - data_module: default
   - experiments: default
   - data: default
+  - mode: default

@@ -110,6 +110,12 @@ class CrisprBERTLightning(pl.LightningModule):
         self.log("val_auroc", self.val_auroc, prog_bar=True)
         return loss
 
+    def predict_step(self, batch):
+        input_ids = batch["input_ids"]
+        outputs = self(input_ids)
+        preds = (outputs > 0.5).int()
+        return preds
+
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
         scheduler = optim.lr_scheduler.ReduceLROnPlateau(

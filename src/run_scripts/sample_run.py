@@ -26,20 +26,42 @@ def run(cfg):
     model, data_module = get_model(cfg)
     logger = get_logger(cfg.logging)
 
-    trainer = pl.Trainer(
-        max_epochs=cfg.experiments.max_epochs,
-        logger=logger,
-        callbacks=[
-            pl.callbacks.ModelCheckpoint(
-                **cfg.experiments.train.callbacks.model_checkpoint
-            ),
-            pl.callbacks.LearningRateMonitor(
-                **cfg.experiments.train.callbacks.lr_rate_monitor
-            ),
-        ],
-    )
+    mode = cfg.mode.label
 
-    trainer.fit(model, datamodule=data_module)
+    if mode == "test":
+        print("Running in test mode")
+        trainer = pl.Trainer(
+            max_epochs=cfg.experiments.max_epochs,
+            logger=logger,
+        )
+        trainer.test(model, datamodule=data_module)
+        return
+    elif mode == "train":
+        print("Running in train mode")
+
+        trainer = pl.Trainer(
+            max_epochs=cfg.experiments.max_epochs,
+            logger=logger,
+            callbacks=[
+                pl.callbacks.ModelCheckpoint(
+                    **cfg.experiments.train.callbacks.model_checkpoint
+                ),
+                pl.callbacks.LearningRateMonitor(
+                    **cfg.experiments.train.callbacks.lr_rate_monitor
+                ),
+            ],
+        )
+
+        trainer.fit(model, datamodule=data_module)
+
+    elif mode == "inference":
+        # logger.info("Running in inference mode")
+        print("Inference mode")
+        trainer = pl.Trainer(devices="auto")
+        predictions = trainer.predict(model, datamodule=data_module)
+
+        print(predictions)
+        return
 
 
 if __name__ == "__main__":

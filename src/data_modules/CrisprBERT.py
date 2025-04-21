@@ -12,7 +12,7 @@ from src.utils.CrisprBERT import base_pair, off_tar_read
 
 
 class CrisprDataset(Dataset):
-    def __init__(self, sequences, labels):
+    def __init__(self, sequences, labels=None):
         self.sequences = sequences  # Tensor of shape (n_samples, seq_length)
         self.labels = labels  # Tensor of shape (n_samples,)
 
@@ -20,7 +20,10 @@ class CrisprDataset(Dataset):
         return len(self.sequences)
 
     def __getitem__(self, idx):
-        return {"input_ids": self.sequences[idx], "labels": self.labels[idx]}
+        item = {"input_ids": self.sequences[idx]}
+        if self.labels is not None:
+            item["labels"] = self.labels[idx]
+        return item
 
 
 class CrisprDataModule(pl.LightningDataModule):
@@ -42,17 +45,15 @@ class CrisprDataModule(pl.LightningDataModule):
         self.num_workers = num_workers
 
     def setup(self, stage=None):
-        # Create the full dataset
         base_p = base_pair()
         base_list = base_p.create_dict(self.encoding)
         encoder = off_tar_read(self.file_path, base_list)
 
         encode_matrix, class_labels = encoder.encode(self.encoding)
 
-        # print(encode_matrix, class_labels)
         full_dataset = CrisprDataset(encode_matrix.astype(np.int64), class_labels)
+        self.predict_dataset = CrisprDataset(encode_matrix.astype(np.int64))
 
-        # Optionally split out test data if desired
         if self.test_split > 0:
             test_size = int(len(full_dataset) * self.test_split)
             train_val_size = len(full_dataset) - test_size
@@ -63,7 +64,6 @@ class CrisprDataModule(pl.LightningDataModule):
             train_val_dataset = full_dataset
             self.test_dataset = None
 
-        # Split train_val_dataset into training and validation sets
         if self.val_split > 0:
             val_size = int(len(train_val_dataset) * self.val_split)
             train_size = len(train_val_dataset) - val_size
@@ -101,3 +101,11 @@ class CrisprDataModule(pl.LightningDataModule):
                 num_workers=self.num_workers,
             )
         return None
+
+    def predict_dataloader(self):
+        return DataLoader(
+            self.predict_dataset,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            shuffle=False,
+        )

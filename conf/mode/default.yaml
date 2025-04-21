@@ -1,0 +1,4 @@
+label: inference #train
+
+weights_path: "./model_weights/"
+checkpoint: "~/CRISPR-off-t-engine/model_weights/crispr_bert/deterministic_best-epoch_49-val_acc_0.87.ckpt"

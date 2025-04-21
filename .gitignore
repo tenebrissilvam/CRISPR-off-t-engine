@@ -140,3 +140,4 @@ mlruns/
 *.tar.gz
 
 outputs/
+/encoded_data
