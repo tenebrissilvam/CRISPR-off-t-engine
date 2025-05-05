@@ -51,8 +51,9 @@ To run the program, follow these steps:
    cd /CRISPR-off-t-engine
    ```
 
-1. **Activate the Virtual Environment:**
-   First, you need to activate the virtual environment of `uv`. This ensures that all the necessary dependencies are available.
+1. **Activate the Virtual Environment:** First, you need to activate the virtual
+   environment of `uv`. This ensures that all the necessary dependencies are
+   available.
 
    ```sh
    pip install uv
@@ -63,8 +64,9 @@ To run the program, follow these steps:
 
    uv sync
    ```
-2. **Run the Script:** 
-  Once the virtual environment is activated, navigate to the root of the project and run the following command:
+
+2. **Run the Script:** Once the virtual environment is activated, navigate to
+   the root of the project and run the following command:
 
    ```sh
    uv run src/run_scripts/sample_run.py
@@ -75,19 +77,24 @@ To run the program, follow these steps:
 ### March 2025
 
 - **31.03.2025**
+
   - Added Hydra configs.
   - Created run script.
   - Integrated DVC for version control.
 
 - **30.03.2025**
+
   - Added project description.
-  - Implemented metrics for performance evaluation on the Change-seq dataset for all four methods.
+  - Implemented metrics for performance evaluation on the Change-seq dataset for
+    all four methods.
 
 - **23.03.2025**
+
   - Added R-Crispr method.
   - Added Deep-CNN method.
 
 - **17.03.2025**
+
   - Added Crispr DipOff method code.
 
 - **15.03.2025**
