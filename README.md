@@ -45,11 +45,23 @@ Methods performance on Change-seq dataset:
 
 To run the program, follow these steps:
 
+0. **Enter project dir:**
+
+   ```sh
+   cd /CRISPR-off-t-engine
+   ```
+
 1. **Activate the Virtual Environment:**
    First, you need to activate the virtual environment of `uv`. This ensures that all the necessary dependencies are available.
 
    ```sh
+   pip install uv
+
+   uv venv --python $(cat .python-version) --prompt crispr-off-t-engine
+
    source .venv/uv/bin/activate
+
+   uv sync
    ```
 2. **Run the Script:** 
   Once the virtual environment is activated, navigate to the root of the project and run the following command:

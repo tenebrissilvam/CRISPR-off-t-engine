@@ -1,2 +1,4 @@
-['remote "myremote"']
-    url = gdrive://1HP40TBVU231V59HpMIgAdr-FaJPIQG0M
+[core]
+    remote = yandex_disk
+['remote "yandex_disk"']
+    url = webdavs://webdav.yandex.ru
