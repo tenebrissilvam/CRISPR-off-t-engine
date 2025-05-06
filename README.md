@@ -72,6 +72,12 @@ To run the program, follow these steps:
    uv run src/run_scripts/sample_run.py
    ```
 
+3. **MlFlow inference** You need to build the model first via command
+
+   ```sh
+   uv run mlflow-serve/mlflow/mlflow_model_wrapper.py
+   ```
+
 ## Project progress
 
 ### March 2025

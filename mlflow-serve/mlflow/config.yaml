@@ -1,0 +1,70 @@
+data:
+  dataset_path: data/Change_seq.csv
+data_module:
+  crispr_bert:
+    batch_size: 128
+    encoding: doublet
+    filepath: data/Change_seq.csv
+    num_workers: 4
+    test_split: 0.1
+    val_split: 0.2
+  crispr_dipoff:
+    batch_size: 128
+    filepath: data/Change_seq.csv
+    val_split: 0.2
+  deep_cnn:
+    batch_size: 128
+    filepath: data/Change_seq.csv
+    val_split: 0.2
+  label: crispr_bert
+  r_crispr:
+    batch_size: 128
+    filepath: data/Change_seq.csv
+    val_split: 0.2
+experiments:
+  inference: null
+  max_epochs: 50
+  train:
+    callbacks:
+      lr_rate_monitor:
+        logging_interval: epoch
+      model_checkpoint:
+        mode: max
+        monitor: val_auroc
+logging:
+  label: wandb
+  name: base_model
+  project: crispr_all_model_comparison
+  save_dir: .
+mode:
+  checkpoint: ./model_weights/crispr_bert/deterministic_best-epoch_49-val_acc_0.87.ckpt
+  label: inference
+  weights_path: ./model_weights/
+model:
+  crispr_bert:
+    attention_probs_dropout_prob: 0.1
+    hidden_act: gelu
+    hidden_dropout_prob: 0.1
+    hidden_size: 64
+    intermediate_size: 2048
+    learning_rate: 2.0e-05
+    num_attention_heads: 8
+    num_hidden_layers: 6
+    vocab_size: 256
+  crispr_dipoff:
+    batch_size": 128
+    bi_lstm: true
+    dropout_prob: 0.4
+    emb_size: 4
+    epochs: 50
+    hidden_size: 512
+    learning_rate: 0.0001
+    lstm_layers: 1
+    number_hidder_layers: 2
+    reshape: false
+    vocab_size: 0
+  deep_cnn:
+    learning_rate: 0.0001
+  label: crispr_bert
+  r_crispr:
+    learning_rate: 0.001

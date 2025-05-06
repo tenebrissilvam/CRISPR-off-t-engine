@@ -115,10 +115,12 @@ class off_tar_read(object):
         ]  # list of the off_target DNA seq
         # target -> the gRNA sequence
         # off-target -> the DNA sequence gRNA binds to
-
-        self.labels = np.asarray(
-            self.read_file.loc[:, "class"]
-        )  # get the labels and convert to array
+        try:
+            self.labels = np.asarray(
+                self.read_file.loc[:, "class"]
+            )  # get the labels and convert to array
+        except BaseException:
+            self.labels = np.zeros(len(self.target))
         self.pairs = pairs
 
     def encode(self, encoding="doublet"):  # encoding starts here
@@ -155,9 +157,9 @@ class off_tar_read(object):
             )  # dense encoding for doublet encoding
             np.savetxt(encode_path, encode_matrix)
 
-        assert encode_matrix.shape[0] == len(
-            self.labels
-        )  # sanity check for labels and encode array
+        # assert encode_matrix.shape[0] == len(
+        #    self.labels
+        # )  # sanity check for labels and encode array
         return encode_matrix, self.labels
 
 

@@ -1,25 +1,30 @@
+import sys
+from pathlib import Path
 from typing import Any, Dict
 
 import torch
 
-from data_modules.CRISPR_DIPOFF import RNNDataModule
-from data_modules.CrisprBERT import CrisprDataModule
-from data_modules.DeepCNN import CNNDataModule
-from data_modules.R_CRISPR import RCRISPRDataModule
-from models.CRISPR_DIPOFF import RNNLightningModel
-from models.CrisprBERT import CrisprBERTLightning
-from models.DeepCNN import CNNModel
-from models.R_CRISPR import CrisprNetLightning
+BASE_DIR = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(BASE_DIR))
+
+from src.data_modules.CRISPR_DIPOFF import RNNDataModule
+from src.data_modules.CrisprBERT import CrisprDataModule
+from src.data_modules.DeepCNN import CNNDataModule
+from src.data_modules.R_CRISPR import RCRISPRDataModule
+from src.models.CRISPR_DIPOFF import RNNLightningModel
+from src.models.CrisprBERT import CrisprBERTLightning
+from src.models.DeepCNN import CNNModel
+from src.models.R_CRISPR import CrisprNetLightning
 
 
 def get_model(model_conf: Dict[str, Any]):
     """Select model to run experiments"""
-    mode = model_conf.mode.label
+    mode = model_conf["mode"]["label"]
 
-    label = model_conf.model.label
+    label = model_conf["model"]["label"]
     if label == "crispr_bert":
         data_module = CrisprDataModule(
-            **model_conf.data_module.crispr_bert,
+            **model_conf["data_module"]["crispr_bert"],
         )
         if mode == "train":
             torch.backends.cudnn.enabled = True
@@ -27,7 +32,7 @@ def get_model(model_conf: Dict[str, Any]):
         else:
             torch.backends.cudnn.enabled = False
             model = CrisprBERTLightning.load_from_checkpoint(
-                model_conf.mode.checkpoint,
+                model_conf["mode"]["checkpoint"],
             ).eval()
         return model, data_module
     if label == "crispr_dipoff":
