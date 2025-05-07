@@ -19,3 +19,5 @@ CMD ["mlflow", "models", "serve", "-m", "mlflow-serve/mlflow/crispr_off_t_model"
 #sudo docker run -d -p 8888:8888 --name mlflow-server mlflow-app
 
 #curl -X POST http://localhost:8888/invocations -H "Content-Type: application/json"      -d '{"inputs": [{"sequence":"GTCACCAATCCTGTCCCTAGTGG", "Target sequence": "TAAAGCAATCCTGTCCCCAGAGG"}]}'
+#for docker
+#curl -X POST http://localhost:8888/invocations -H "Content-Type: application/json"      -d '{"inputs": [{"sequence":["GTCACCAATCCTGTCCCTAGTGG"], "Target sequence": ["TAAAGCAATCCTGTCCCCAGAGT"]}]}'

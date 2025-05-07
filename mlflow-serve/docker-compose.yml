@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   mlflow:
-    build: ./mlflow
+    build:
+      context: ../
+      dockerfile: mlflow-serve/mlflow/Dockerfile
     container_name: mlflow
     ports:
       - "8888:8888"

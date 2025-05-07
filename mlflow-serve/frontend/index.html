@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Off-Target Effect Predictor</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; text-align: center; }
+    .input-group { margin: 20px auto; max-width: 500px; text-align: left; }
+    label { display: block; margin: 10px 0 5px; }
+    input[type="text"] { width: 100%; padding: 8px; margin-bottom: 15px; }
+    #result { margin-top: 20px; font-size: 24px; font-weight: bold; }
+    #loader { display: none; margin-top: 20px; }
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <h1>Input Sequences</h1>
+
+  <div class="input-group">
+    <label for="sequence">Sequence:</label>
+    <input type="text" id="sequence" placeholder="Enter sequence (e.g., GTCACCAATCCTGTCCCTAGTGG)">
+  </div>
+
+  <div class="input-group">
+    <label for="targetSequence">Target Sequence:</label>
+    <input type="text" id="targetSequence" placeholder="Enter target sequence (e.g., TAAAGCAATCCTGTCCCCAGAGG)">
+  </div>
+
+  <button onclick="predict()">Predict Off-Target Effect</button>
+
+  <div id="loader">
+    <div class="spinner"></div>
+    <p>Predicting...</p>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('result');
+
+    async function predict() {
+      const sequence = document.getElementById('sequence').value.trim();
+      const targetSequence = document.getElementById('targetSequence').value.trim();
+
+      if (!sequence || !targetSequence) {
+        resultDiv.textContent = "Please fill in both sequences.";
+        return;
+      }
+
+      resultDiv.textContent = "";
+      loader.style.display = 'block';
+
+      try {
+        const response = await fetch('http://localhost:8890/invocations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            inputs: [{
+              "sequence": sequence,
+              "Target sequence": targetSequence
+            }]
+          })
+        });
+
+        const prediction = await response.json();
+        const result = prediction.predictions?.[0]?.[0];
+
+        if (result === 0) {
+          resultDiv.textContent = "✅ No off-target effect is predicted.";
+        } else if (result === 1) {
+          resultDiv.textContent = "⚠️ An off-target effect is predicted.";
+        } else {
+          resultDiv.textContent = "Error: Invalid prediction result.";
+        }
+      } catch (error) {
+        console.error(error);
+        resultDiv.textContent = "Prediction failed. See console for details.";
+      } finally {
+        loader.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
