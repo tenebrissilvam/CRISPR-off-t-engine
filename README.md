@@ -34,12 +34,33 @@ Machine learning (ML) approaches are effective because, when trained on large
 datasets of experimentally observed off-target effects, models learn to capture
 hidden factors influencing targeting.
 
-### Technical Task
+### Technical Task and data format
 
-Input: Two sequences, sgRNA and targetDNA, represented as strings of nucleotides
-(A, T, G, C) approximately 20 characters in length (variable size). Output: A
-binary prediction (0 or 1) indicating the presence (1) or absence (0) of an
+**Input**: Two sequences, sgRNA and targetDNA, represented as strings of nucleotides
+(A, T, G, C) approximately 20 characters in length (variable size). 
+
+**Output**: A binary prediction (0 or 1) indicating the presence (1) or absence (0) of an
 off-target effect.
+
+### Metrics
+
+Models in this project are evaluated via **Accuracy**, **AUROC**, **Precision** and **Recall**. 
+
+the main CRISPR-BERT model is expected to perform around following:
+
+| Model                                      | Val Accuracy | Val AUROC | Val Precision | Val Recall |
+|-------------------------------------------|--------------|-----------|----------------|-------------|
+| Bidirectional LSTM with BERT embedding    | 0.86         | 0.90      | 0.77           | 0.56        |
+
+### Models
+
+The main model is CRISPR-BERT based on architecture suggested in the paper **Orhan Sari, Ziying Liu, Youlian Pan, Xiaojian Shao, Predicting CRISPR-Cas9 off-target effects in human primary cells using bidirectional LSTM with BERT embedding, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae184, https://doi.org/10.1093/bioadv/vbae184 (https://academic.oup.com/bioinformaticsadvances/article/5/1/vbae184/7934878)**
+
+Stack encoding was used to encode the CRISPR-Cas9 sgRNA–DNA sequence pairs, after which the data is passed into a BERT embedding layer. The output of BERT is fed into a BiLSTM layer. The output of the BiLSTM is then passed through dense layers with a sigmoid activation at the end to predict the presence of off-target effects.
+
+### Implementation
+
+Final project runs as an ML Flow inference server with interactive frontend. Please follow instructions below to run it locally on your machine.
 
 ## Setup
 
