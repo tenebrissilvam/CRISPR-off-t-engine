@@ -70,7 +70,24 @@ To run the program, follow these steps:
    uv sync
    ```
 
+2. **Training** After environment preparation navigate to conf folder, switch
+   label field at conf/mode/default.yaml to train and modify other parameters if
+   needed, then run following command from the root of the repository to train
+   the model.
+
+```sh
+uv run src/run_scripts/train.py
+```
+
 ## Production preparation
+
+**Plots visualisation** To view loss plits and AUROC, recall and precision
+metrics first navigate to conf/logging/default.yaml and specify your wandb
+username and project name.Then run
+
+```sh
+uv run src/utils/data_visuals.py
+```
 
 **MlFlow server preparation** You need to build the model first via command
 
@@ -80,8 +97,10 @@ uv run mlflow-serve/mlflow/mlflow_model_wrapper.py
 
 ## Infer
 
-1. **Run the Script:** Once the virtual environment is activated, navigate to
-   the root of the project and run the following command:
+1. **Run the Script:** for model inference on the provided dataset put csv
+   dataset path in conf/data/default.yaml and switch label field at
+   conf/mode/default.yaml to train. Also make sure you placed model weights
+   correct path at conf/mode/default.yaml. Then run
 
    ```sh
    uv run src/run_scripts/sample_run.py
@@ -116,11 +135,15 @@ Then you can send requests using following format
 
 ```
 
-To run all services use
+3. To run all services use
 
 ```sh
    sudo docker-compose -f mlflow-serve/docker-compose.yml up --build
 
+```
+
+Then navigate to the http://localhost:9000 in your browser to use user friendly
+RNA and DNA site input to predict off-target effect
 
 ## Project progress
 
@@ -158,4 +181,3 @@ This code is based on methods presented in following papers:
 2. [Orhan Sari, Ziying Liu, Youlian Pan, Xiaojian Shao, Predicting CRISPR-Cas9 off-target effects in human primary cells using bidirectional LSTM with BERT embedding, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae184, https://doi.org/10.1093/bioadv/vbae184](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbae184/7934878)
 3. [Md Toufi kuzzaman, Md Abul Hassan Samee, M Sohel Rahman, CRISPR-DIPOFF: an interpretable deep learning approach for CRISPR Cas-9 off-target prediction, Briefi ngs in Bioinformatics, Volume 25, Issue 2, March 2024, bbad530, https://doi.org/10.1093/bib/bbad530](https://academic.oup.com/bib/article/25/2/bbad530/7588687)
 4. [Niu R, Peng J, Zhang Z, Shang X. R-CRISPR: A Deep Learning Network to Predict Off-Target Activities with Mismatch, Insertion and Deletion in CRISPR-Cas9 System. Genes (Basel). 2021 Nov 25;12(12):1878. doi: 10.3390/genes12121878. PMID: 34946828; PMCID: PMC8702036.](https://pmc.ncbi.nlm.nih.gov/articles/PMC8702036/)
-```

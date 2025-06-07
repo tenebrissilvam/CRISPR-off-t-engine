@@ -27,12 +27,12 @@
 
   <div class="input-group">
     <label for="sequence">Sequence:</label>
-    <input type="text" id="sequence" placeholder="Enter sequence (e.g., GTCACCAATCCTGTCCCTAGTGG)">
+    <input type="text" id="sequence" placeholder="Enter RNA-sq sequence (e.g., GTCACCAATCCTGTCCCTAGTGG)">
   </div>
 
   <div class="input-group">
     <label for="targetSequence">Target Sequence:</label>
-    <input type="text" id="targetSequence" placeholder="Enter target sequence (e.g., TAAAGCAATCCTGTCCCCAGAGG)">
+    <input type="text" id="targetSequence" placeholder="Enter DNA site sequence (e.g., TAAAGCAATCCTGTCCCCAGAGG)">
   </div>
 
   <button onclick="predict()">Predict Off-Target Effect</button>
@@ -66,8 +66,8 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             inputs: [{
-              "sequence": [sequence],
-              "Target sequence": targetSequence
+              "RNA-sg": [sequence],
+              "DNA site": targetSequence
             }]
           })
         });
