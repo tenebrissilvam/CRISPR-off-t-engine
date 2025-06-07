@@ -1,0 +1,5 @@
+outs:
+- md5: 3f36243310addbf1d92d10034df478ff
+  size: 7352426
+  hash: md5
+  path: crispr_detector_fixed.onnx

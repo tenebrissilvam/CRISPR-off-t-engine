@@ -36,39 +36,51 @@ hidden factors influencing targeting.
 
 ### Technical Task and data format
 
-**Input**: Two sequences, sgRNA and targetDNA, represented as strings of nucleotides
-(A, T, G, C) approximately 20 characters in length (variable size). 
+**Input**: Two sequences, sgRNA and targetDNA, represented as strings of
+nucleotides (A, T, G, C) approximately 20 characters in length (variable size).
 
-**Output**: A binary prediction (0 or 1) indicating the presence (1) or absence (0) of an
-off-target effect.
+**Output**: A binary prediction (0 or 1) indicating the presence (1) or absence
+(0) of an off-target effect.
 
 ### Metrics
 
-Models in this project are evaluated via **Accuracy**, **AUROC**, **Precision** and **Recall**. 
+Models in this project are evaluated via **Accuracy**, **AUROC**, **Precision**
+and **Recall**.
 
 the main CRISPR-BERT model is expected to perform around following:
 
-| Model                                      | Val Accuracy | Val AUROC | Val Precision | Val Recall |
-|-------------------------------------------|--------------|-----------|----------------|-------------|
-| Bidirectional LSTM with BERT embedding    | 0.86         | 0.90      | 0.77           | 0.56        |
+| Model                                  | Val Accuracy | Val AUROC | Val Precision | Val Recall |
+| -------------------------------------- | ------------ | --------- | ------------- | ---------- |
+| Bidirectional LSTM with BERT embedding | 0.86         | 0.90      | 0.77          | 0.56       |
 
 ### Models
 
-The main model is CRISPR-BERT based on architecture suggested in the paper **Orhan Sari, Ziying Liu, Youlian Pan, Xiaojian Shao, Predicting CRISPR-Cas9 off-target effects in human primary cells using bidirectional LSTM with BERT embedding, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae184, https://doi.org/10.1093/bioadv/vbae184 (https://academic.oup.com/bioinformaticsadvances/article/5/1/vbae184/7934878)**
+The main model is CRISPR-BERT based on architecture suggested in the paper
+**Orhan Sari, Ziying Liu, Youlian Pan, Xiaojian Shao, Predicting CRISPR-Cas9
+off-target effects in human primary cells using bidirectional LSTM with BERT
+embedding, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae184,
+https://doi.org/10.1093/bioadv/vbae184
+(https://academic.oup.com/bioinformaticsadvances/article/5/1/vbae184/7934878)**
 
-Stack encoding was used to encode the CRISPR-Cas9 sgRNA–DNA sequence pairs, after which the data is passed into a BERT embedding layer. The output of BERT is fed into a BiLSTM layer. The output of the BiLSTM is then passed through dense layers with a sigmoid activation at the end to predict the presence of off-target effects.
+Stack encoding was used to encode the CRISPR-Cas9 sgRNA–DNA sequence pairs,
+after which the data is passed into a BERT embedding layer. The output of BERT
+is fed into a BiLSTM layer. The output of the BiLSTM is then passed through
+dense layers with a sigmoid activation at the end to predict the presence of
+off-target effects.
 
 ### Implementation
 
-Final project runs as an ML Flow inference server with interactive frontend. Please follow instructions below to run it locally on your machine.
+Final project runs as an ML Flow inference server with interactive frontend.
+Please follow instructions below to run it locally on your machine.
 
 ## Setup
 
 To run the program, follow these steps:
 
-0. **Enter project dir:**
+0. **Clone repository and enter project dir:**
 
    ```sh
+   git clone https://github.com/tenebrissilvam/CRISPR-off-t-engine.git
    cd /CRISPR-off-t-engine
    ```
 
@@ -134,12 +146,42 @@ inference_model_modifications/onnx/crispr_detector.onnx
 uv run inference_model_modifications/onnx/onnx_model_conversion.py
 ```
 
-**TensorRT** First pull docker image via
+**TensorRT** 0. First pull docker image via
 
 ```sh
 docker pull nvcr.io/nvidia/tensorrt:23.04-py3
+```
 
-sudo docker run -it --rm --gpus '"device=0"' -v ./models:/inference_model_modifications/onnx nvcr.io/nvidia/tensorrt:23.04-py3
+1. Fix onnx model to have int32 weights via
+
+```sh
+cd /inference_model_modifications/onnx
+
+uv run model_surgeon.py
+
+cd ..
+
+cd ..
+```
+
+2. then run interactive container
+
+```sh
+docker run -it --rm --gpus device=0   -v $(pwd)/inference_model_modifications/onnx:/models   nvcr.io/nvidia/tensorrt:23.04-py3
+```
+
+3. then inside the container run
+
+```sh
+trtexec \
+  --onnx=/models/crispr_detector_fixed.onnx \
+  --saveEngine=/models/crispr_detector_FP32.plan \
+  --minShapes=input:1x22 \
+  --optShapes=input:8x22 \
+  --maxShapes=input:16x22 \
+  --profilingVerbosity=detailed \
+  --builderOptimizationLevel=5 \
+  --hardwareCompatibilityLevel=ampere+
 ```
 
 ## Infer
@@ -195,11 +237,13 @@ RNA and DNA site input to predict off-target effect
 ## Project progress
 
 ### June 2025
+
 - **07.06.2025**
   - Added ONNX conversion
   - Added autodownload script for the data
 
 ### May 2025
+
 - **10.05.2025**
   - Added frontend to ML Flow server
 
