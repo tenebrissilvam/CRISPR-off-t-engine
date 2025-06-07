@@ -1,6 +1,10 @@
-<center>
-  <h1>CRISPR-Cas9 off-target prediction engine</h1>
-</center>
+<p align="center">
+  <strong>CRISPR-Cas9 off-target prediction engine</strong>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b271f8cb-46e9-4266-9cdf-834f5cabf109" width="400"/>
+</p>
 
 ## Problem Statement
 
@@ -168,6 +172,22 @@ Then navigate to the http://localhost:9000 in your browser to use user friendly
 RNA and DNA site input to predict off-target effect
 
 ## Project progress
+
+### June 2025
+- **07.06.2025**
+  - Added ONNX conversion
+  - Added autodownload script for the data
+
+### May 2025
+- **10.05.2025**
+  - Added frontend to ML Flow server
+
+### April 2025
+
+- **20.04.2025**
+  - Added Ml Flow inference
+  - Added Dockerised model
+  - Added support for curl requests for the model
 
 ### March 2025
 
