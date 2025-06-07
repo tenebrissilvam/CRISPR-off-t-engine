@@ -22,6 +22,12 @@ sys.path.insert(0, str(BASE_DIR))
     version_base=None, config_path=os.path.join(BASE_DIR, "conf/"), config_name="config"
 )
 def run(cfg):
+    """run
+
+    training script for the model
+
+    :param cfg: hydra config
+    """
     model, data_module = get_model(cfg)
 
     print("Inference mode")

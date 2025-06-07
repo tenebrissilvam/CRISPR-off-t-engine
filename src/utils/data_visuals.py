@@ -6,12 +6,17 @@ import hydra
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+
 import wandb
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 
 def get_dataset(runs):
+    """get_dataset
+
+    collects runs via wandb api and returns in pd.Dataframe format
+    """
     for i, run in enumerate(runs):
         summary_dict = run.summary
         summary_dict["name"] = run.name
@@ -26,6 +31,10 @@ def get_dataset(runs):
 
 
 def process_data(runs):
+    """process_data
+
+    returns subdataframe with metrics columns
+    """
     df_plots = get_dataset(runs)[:-1]
 
     plot_cols = [
@@ -54,6 +63,10 @@ def process_data(runs):
 
 
 def bars_plot(df_plots_val):
+    """bars_plot
+
+    returns barplot with "val_acc", "val_auroc", "val_precision", "val_recall" metrics
+    """
     plt.style.use("seaborn-v0_8-darkgrid")
 
     df_plots_val.T.plot(kind="bar", figsize=(15, 4), rot=0)
@@ -72,6 +85,10 @@ def bars_plot(df_plots_val):
 
 
 def heatmap_plot(df_plots_val):
+    """heatmap_plot
+
+    returns heatmap plot with "val_acc", "val_auroc", "val_precision", "val_recall" metrics
+    """
     plt.figure(figsize=(10, 6))
     sns.heatmap(df_plots_val, annot=True, cmap="viridis", fmt=".3f", linewidths=0.5)
 
@@ -86,6 +103,10 @@ def heatmap_plot(df_plots_val):
 
 
 def plot_loss(runs):
+    """plot_loss
+
+    returns loss plots with train and evaluation values
+    """
     loss_data = {}
 
     for run in runs:
@@ -124,6 +145,10 @@ def plot_loss(runs):
     version_base=None, config_path=os.path.join(BASE_DIR, "conf/"), config_name="config"
 )
 def main(cfg):
+    """main _summary_
+
+    saves plots to plot directory from wandb api runs
+    """
     api = wandb.Api()
     user = cfg.logging.user
     proj_name = cfg.logging.project

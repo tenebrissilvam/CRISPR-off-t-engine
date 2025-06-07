@@ -19,6 +19,13 @@ from src.utils.CrisprBERT import base_pair, off_tar_read
     config_name="config",
 )
 def export_onnx(cfg):
+    """
+    export_onnx
+
+    convert pytorch lightning model to onnx format
+
+    :param cfg: hydra config
+    """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(device)
 

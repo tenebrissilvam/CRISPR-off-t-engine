@@ -3,7 +3,12 @@ import onnx
 import onnx_graphsurgeon as gs
 
 
-def main():
+def model_fix():
+    """
+    model_fix
+
+    transfers int64 weights to int32 to be compatible with the tensorrt
+    """
     graph = gs.import_onnx(onnx.load("crispr_detector.onnx"))
 
     for tensor in graph.tensors().values():
@@ -17,4 +22,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    model_fix()

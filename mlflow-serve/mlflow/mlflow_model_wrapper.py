@@ -16,11 +16,15 @@ sys.path.insert(0, str(BASE_DIR))
 from src.model_selector import get_model
 from src.utils.CrisprBERT import base_pair, off_tar_read
 
-# sys.path.remove(str(_parentdir))
-# sys.path.insert(0, str(BASE_DIR))
-
 
 class CrisprDetector(mlflow.pyfunc.PythonModel):
+    """CrisprDetector
+
+    class used for wrapping a Crispr detection model to mlflow format
+
+    :param mlflow: mlflow wrapper
+    """
+
     def load_context(self, context):
         config_path = os.path.join("mlflow-serve/mlflow", "config.yaml")
         with open(config_path, "r") as f:
@@ -32,9 +36,6 @@ class CrisprDetector(mlflow.pyfunc.PythonModel):
         self.base_list = self.base_p.create_dict(self.encoding)
 
     def predict(self, context, model_input):
-        # receive {"sequence": [], "Target sequence":[]}
-        # save input data to artifacts/input.csv file with fields "sequence" for RNA and "Target sequence" for DNA
-
         df = pd.DataFrame(model_input)
         os.makedirs("outputs", exist_ok=True)
         df.to_csv("outputs/input.csv", index=False)
@@ -43,9 +44,6 @@ class CrisprDetector(mlflow.pyfunc.PythonModel):
         encode_matrix, _ = encoder.encode(self.encoding)
 
         print(encode_matrix.shape)
-
-        # batch = {"inputs": encode_matrix.astype(np.int64)}
-        # self.predict_dataset = CrisprDataset(encode_matrix.astype(np.int64))
 
         with torch.no_grad():
             inputs = torch.tensor(encode_matrix, dtype=torch.int64).unsqueeze(0)
@@ -59,6 +57,12 @@ class CrisprDetector(mlflow.pyfunc.PythonModel):
     version_base=None, config_path=os.path.join(BASE_DIR, "conf/"), config_name="config"
 )
 def make_model(cfg):
+    """make_model
+
+    convert model to mlflow format and save its artifacts
+
+    :param cfg: hydra config
+    """
     config_dict = OmegaConf.to_container(cfg, resolve=True)
 
     with open("mlflow-serve/mlflow/config.yaml", "w") as f:
