@@ -1,4 +1,6 @@
-# CRISPR-Cas9 off-target prediction engine
+<center>
+  <h1>CRISPR-Cas9 off-target prediction engine</h1>
+</center>
 
 ## Problem Statement
 
@@ -37,12 +39,8 @@ off-target effect.
 
 ## Data
 
-Methods performance on Change-seq dataset:
-
-![image_2025-03-31_05-20-20](https://github.com/user-attachments/assets/791f7a4f-0ccf-4bd4-9266-ef339203b3c0)
-
-you can download csv file from the following
-![link](https://1drv.ms/x/c/695ce78a94063f8c/EbdYXZVnrT5ElMKf6cKtlugBznQbWkVrqr7tNWPrDLpcmg?e=iHYCsy)
+You can download csv file of Change_seq dataset from the following link:
+https://1drv.ms/x/c/695ce78a94063f8c/EbdYXZVnrT5ElMKf6cKtlugBznQbWkVrqr7tNWPrDLpcmg?e=iHYCsy
 
 and paste it in the project directory ./data/Change_seq.csv
 
@@ -93,6 +91,14 @@ uv run src/utils/data_visuals.py
 
 ```sh
 uv run mlflow-serve/mlflow/mlflow_model_wrapper.py
+```
+
+**ONNX model conversion** To convert model into onnx format using pretrained
+weights run following command to save model to
+inference_model_modifications/onnx/crispr_detector.onnx
+
+```sh
+uv run inference_model_modifications/onnx/onnx_model_conversion.py
 ```
 
 ## Infer

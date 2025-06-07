@@ -142,3 +142,4 @@ mlruns/
 outputs/
 /encoded_data
 mlflow-serve/mlflow/crispr_off_t_model/
+*.onnx
