@@ -1,5 +1,6 @@
 label: wandb
 
+user: tenebrissilvam
 project: crispr_all_model_comparison
 name: base_model
 save_dir: "."

@@ -35,13 +35,18 @@ Input: Two sequences, sgRNA and targetDNA, represented as strings of nucleotides
 binary prediction (0 or 1) indicating the presence (1) or absence (0) of an
 off-target effect.
 
-## Data and experiments
+## Data
 
 Methods performance on Change-seq dataset:
 
 ![image_2025-03-31_05-20-20](https://github.com/user-attachments/assets/791f7a4f-0ccf-4bd4-9266-ef339203b3c0)
 
-## How to Run the Program
+you can download csv file from the following
+![link](https://1drv.ms/x/c/695ce78a94063f8c/EbdYXZVnrT5ElMKf6cKtlugBznQbWkVrqr7tNWPrDLpcmg?e=iHYCsy)
+
+and paste it in the project directory ./data/Change_seq.csv
+
+## Setup
 
 To run the program, follow these steps:
 
@@ -65,18 +70,57 @@ To run the program, follow these steps:
    uv sync
    ```
 
-2. **Run the Script:** Once the virtual environment is activated, navigate to
+## Production preparation
+
+**MlFlow server preparation** You need to build the model first via command
+
+```sh
+uv run mlflow-serve/mlflow/mlflow_model_wrapper.py
+```
+
+## Infer
+
+1. **Run the Script:** Once the virtual environment is activated, navigate to
    the root of the project and run the following command:
 
    ```sh
    uv run src/run_scripts/sample_run.py
    ```
 
-3. **MlFlow inference** You need to build the model first via command
+2. **MlFlow inference**
+
+3. Run mlflow server with the model via
 
    ```sh
-   uv run mlflow-serve/mlflow/mlflow_model_wrapper.py
+   mlflow models serve -m mlflow-serve/mlflow/crispr_off_t_model -p 8888 --host 0.0.0.0 --no-conda
    ```
+
+4. Run mlflow model in a docker via
+
+   ```sh
+    sudo docker build -t mlflow-app -f mlflow-serve/mlflow-serve/mlflow/Dockerfile .
+    sudo docker run -d -p 8888:8888 --name mlflow-server mlflow-app
+   ```
+
+Then you can send requests using following format
+
+```sh
+
+     curl -X POST http://localhost:8888/invocations         -H "Content-Type: application/json"   -d '{
+             "inputs": [
+                 {"sequence":"GTCACCAATCCTGTCCCTAGTGG",
+                 "Target sequence": "TAAAGCAATCCTGTCCCCAGAGT"
+                 }
+             ]
+         }'
+
+```
+
+To run all services use
+
+```sh
+   sudo docker-compose -f mlflow-serve/docker-compose.yml up --build
+
 
 ## Project progress
 
@@ -114,3 +158,4 @@ This code is based on methods presented in following papers:
 2. [Orhan Sari, Ziying Liu, Youlian Pan, Xiaojian Shao, Predicting CRISPR-Cas9 off-target effects in human primary cells using bidirectional LSTM with BERT embedding, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae184, https://doi.org/10.1093/bioadv/vbae184](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbae184/7934878)
 3. [Md Toufi kuzzaman, Md Abul Hassan Samee, M Sohel Rahman, CRISPR-DIPOFF: an interpretable deep learning approach for CRISPR Cas-9 off-target prediction, Briefi ngs in Bioinformatics, Volume 25, Issue 2, March 2024, bbad530, https://doi.org/10.1093/bib/bbad530](https://academic.oup.com/bib/article/25/2/bbad530/7588687)
 4. [Niu R, Peng J, Zhang Z, Shang X. R-CRISPR: A Deep Learning Network to Predict Off-Target Activities with Mismatch, Insertion and Deletion in CRISPR-Cas9 System. Genes (Basel). 2021 Nov 25;12(12):1878. doi: 10.3390/genes12121878. PMID: 34946828; PMCID: PMC8702036.](https://pmc.ncbi.nlm.nih.gov/articles/PMC8702036/)
+```

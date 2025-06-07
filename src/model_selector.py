@@ -4,7 +4,7 @@ from typing import Any, Dict
 
 import torch
 
-BASE_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parents[1]  # 2
 sys.path.insert(0, str(BASE_DIR))
 
 from src.data_modules.CRISPR_DIPOFF import RNNDataModule

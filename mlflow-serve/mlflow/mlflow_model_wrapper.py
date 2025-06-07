@@ -51,6 +51,7 @@ class CrisprDetector(mlflow.pyfunc.PythonModel):
             inputs = torch.tensor(encode_matrix, dtype=torch.int64).unsqueeze(0)
             outputs = self.model(inputs)
             answer = outputs.numpy()
+            print((answer > 0.5).astype(int))
             return (answer > 0.5).astype(int)
 
 

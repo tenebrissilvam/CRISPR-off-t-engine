@@ -53,14 +53,18 @@ def run(cfg):
         )
 
         trainer.fit(model, datamodule=data_module)
+        return
 
     elif mode == "inference":
-        # logger.info("Running in inference mode")
         print("Inference mode")
         trainer = pl.Trainer(devices="auto")
         predictions = trainer.predict(model, datamodule=data_module)
 
-        print(predictions)
+        with open("outputs.txt", "w") as f:
+            for pred in predictions:
+                for item in pred:
+                    f.write(f"{item}\n")
+        print("Predictions have been written to outputs.txt")
         return
 
 
