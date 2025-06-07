@@ -186,16 +186,16 @@ trtexec \
 
 ## Infer
 
-1. **Run the Script:** for model inference on the provided dataset put csv
-   dataset path in conf/data/default.yaml and switch label field at
-   conf/mode/default.yaml to train. Also make sure you placed model weights
-   correct path at conf/mode/default.yaml. Then run
+**Run the Script:** for model inference on the provided dataset put csv dataset
+path in conf/data/default.yaml and switch label field at conf/mode/default.yaml
+to train. Also make sure you placed model weights correct path at
+conf/mode/default.yaml. Then run
 
-   ```sh
-   uv run src/run_scripts/sample_run.py
-   ```
+```sh
+uv run src/run_scripts/infer.py
+```
 
-2. **MlFlow inference**
+**MlFlow inference**
 
 3. Run mlflow server with the model via
 
