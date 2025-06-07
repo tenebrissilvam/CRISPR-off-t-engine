@@ -234,6 +234,8 @@ Then you can send requests using following format
 Then navigate to the http://localhost:9000 in your browser to use user friendly
 RNA and DNA site input to predict off-target effect
 
+![изображение](https://github.com/user-attachments/assets/1263bfed-6737-4280-a1b5-06b4fb32c194)
+
 ## Project progress
 
 ### June 2025
