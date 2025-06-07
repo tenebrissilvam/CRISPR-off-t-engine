@@ -37,13 +37,6 @@ Input: Two sequences, sgRNA and targetDNA, represented as strings of nucleotides
 binary prediction (0 or 1) indicating the presence (1) or absence (0) of an
 off-target effect.
 
-## Data
-
-You can download csv file of Change_seq dataset from the following link:
-https://1drv.ms/x/c/695ce78a94063f8c/EbdYXZVnrT5ElMKf6cKtlugBznQbWkVrqr7tNWPrDLpcmg?e=iHYCsy
-
-and paste it in the project directory ./data/Change_seq.csv
-
 ## Setup
 
 To run the program, follow these steps:
@@ -67,6 +60,21 @@ To run the program, follow these steps:
 
    uv sync
    ```
+
+## Data
+
+0. You can download csv file of Change_seq dataset from the following link:
+   https://1drv.ms/x/c/695ce78a94063f8c/EbdYXZVnrT5ElMKf6cKtlugBznQbWkVrqr7tNWPrDLpcmg?e=iHYCsy
+
+and paste it in the project directory ./data/Change_seq.csv
+
+1. Or you can download it automatically via script to data/Change_seq.py
+
+   ```sh
+   uv run download_data.py
+   ```
+
+## Training
 
 2. **Training** After environment preparation navigate to conf folder, switch
    label field at conf/mode/default.yaml to train and modify other parameters if
@@ -99,6 +107,14 @@ inference_model_modifications/onnx/crispr_detector.onnx
 
 ```sh
 uv run inference_model_modifications/onnx/onnx_model_conversion.py
+```
+
+**TensorRT** First pull docker image via
+
+```sh
+docker pull nvcr.io/nvidia/tensorrt:23.04-py3
+
+sudo docker run -it --rm --gpus '"device=0"' -v ./models:/inference_model_modifications/onnx nvcr.io/nvidia/tensorrt:23.04-py3
 ```
 
 ## Infer
