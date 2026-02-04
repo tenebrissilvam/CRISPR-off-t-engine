@@ -6,6 +6,8 @@
   <img src="https://github.com/user-attachments/assets/b271f8cb-46e9-4266-9cdf-834f5cabf109" width="400"/>
 </p>
 
+Art by me btw ^__^
+
 ## Problem Statement
 
 ### General Task
